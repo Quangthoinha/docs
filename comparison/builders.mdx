@@ -1,44 +1,43 @@
 ---
 title: 'LLM App Builders'
-description: 'So sánh Flowise, Dify và LangFlow'
+description: 'So sánh chi tiết Dify, Flowise và LangFlow với dẫn chứng'
 icon: 'layer-group'
 ---
 
-# LLM App Builders
+# LLM App Builders (Chi tiết)
 
-Xây dựng ứng dụng AI không còn cần phải code thủ công 100%. Các nền tảng Low-code đã thay đổi cuộc chơi.
+Phân tích dựa trên thông số kỹ thuật chính thức.
 
-## So sánh kỹ thuật
+## 1. Bảng so sánh "Official Specs"
 
-| Tiêu chí | Dify.AI | Flowise | LangFlow |
+| Thông số | Dify.AI | Flowise | LangFlow |
 | :--- | :--- | :--- | :--- |
-| **Loại hình** | Product (All-in-one) | Tool (Dev tool) | Tool (Dev tool) |
-| **RAG Engine** | ✅ Built-in (Chunking, Retrieval) | ⚠️ Tự build node | ⚠️ Tự build node |
-| **End-user UI** | ✅ Tuyệt đẹp (Chat, Webapp) | ❌ Cơ bản (Embed) | ❌ Cơ bản (Playground) |
-| **Deploy** | Docker / Cloud | Docker / NPM | Docker / Pip |
+| **Giấy phép (License)** | **Apache 2.0 (Modified)**. Giới hạn thương mại hóa SaaS. [[License]](https://github.com/langgenius/dify/blob/main/LICENSE) | **Apache 2.0**. Một số module Enterprise là thương mại. [[License]](https://github.com/FlowiseAI/Flowise/blob/master/LICENSE) | **MIT**. Hoàn toàn miễn phí & mở. [[License]](https://github.com/langflow-ai/langflow/blob/main/LICENSE) |
+| **Pricing (Cloud)** | **$59/tháng** (Pro). Có gói Free Sandbox (200 credits). [[Pricing]](https://dify.ai/pricing) | **$35/tháng** (Starter). 10k predictions. [[Pricing]](https://flowiseai.com/pricing) | Miễn phí (Self-hosted). Trả tiền Infra + API keys. |
+| **Loại hình** | **Product** (All-in-one RAG + Ops) | **Dev Tool** (Visual LangChain) | **Dev Tool** (Visual GUI) |
 
 <Info>
-  **Sự khác biệt cốt lõi: Tool vs Product**
-  *   **Flowise/LangFlow** là "Tool" dành cho Developer. Nó cho bạn các mảnh ghép (node) Lego để bạn tự lắp.
-  *   **Dify** là "Product" hoàn chỉnh. Nó đã lắp sẵn khung nhà (RAG, Authen, API Management), bạn chỉ việc sơn màu và bỏ nội thất vào.
+  **Lưu ý về License của Dify:**
+  Dify là Open Source, nhưng license cấm bạn dùng nó để **mở dịch vụ Multi-tenant SaaS** cạnh tranh trực tiếp với họ (Trừ khi mua Enterprise License). Dùng nội bộ doanh nghiệp thì thoải mái.
 </Info>
 
-## Deep Dive: Tại sao Dify thắng thế?
+## 2. Deep Dive: Tool vs Product
 
-<Accordion title="Tại sao Dify thắng thế trong doanh nghiệp?">
-  Trong môi trường doanh nghiệp, bạn không chỉ cần một cái "Flow" chạy được. Bạn cần:
-  1.  **Quản lý Knowledge Base**: Dify cho phép upload PDF, tự động segment, tạo index vector chỉ với 1 click. Flowise bắt bạn phải hiểu Vector Store là gì, Embeddings là gì để kéo node.
-  2.  **API Management**: Dify cấp API Key riêng cho từng App, có Rate limit, Log monitor.
-  3.  **Team Collaboration**: Dify có Workspace cho nhiều người cùng làm việc.
-</Accordion>
+<AccordionGroup>
+  <Accordion title="Tại sao Dify là 'Product' tốt nhất?">
+    Dify không chỉ cho bạn kéo thả luồng (Flow). Nó cung cấp cả một hệ thống backend hoàn chỉnh:
+    *   **RAG Engine**: Upload PDF, Dify tự chia nhỏ (Chunking) và lưu vào Vector DB (Weaviate tích hợp sẵn).
+    *   **API Management**: Tự sinh API Key để bạn đưa vào App Mobile/Web của mình.
+    *   **Monitoring**: Xem log chat, đánh giá câu trả lời của AI.
+  </Accordion>
 
-<Tip>
-  **Khi nào nên dùng Flowise?**
-  Khi bạn muốn **Rapid Prototyping** (làm mẫu nhanh) một luồng logic cực dị mà Dify chưa hỗ trợ. Ví dụ: Bạn muốn kết hợp 3 mô hình LLM khác nhau để tranh luận, sau đó lưu vào Airtable. Flowise kéo thả cực nhanh cho việc này.
-</Tip>
+  <Accordion title="Khi nào nên dùng Flowise/LangFlow?">
+    Khi bạn muốn **nhúng sâu (Embed)**.
+    Flowise và LangFlow xuất ra code định dạng JSON hoặc Python/JS. Bạn có thể nhúng thư viện của họ vào code backend NodeJS/Python của riêng bạn. Dify thường chạy như một service độc lập.
+  </Accordion>
+</AccordionGroup>
 
-## Winner
-
-<Card title="The Winner: Dify.AI" icon="trophy">
-  Đối với bài toán xây dựng Chatbot, Knowledge Base cho doanh nghiệp và triển khai Production, **Dify** là lựa chọn số 1 hiện nay nhờ tính trọn gói và ổn định (Production-ready).
+<Card title="Phán quyết (Verdict)" icon="gavel">
+  *   **Doanh nghiệp (SME/Corp)**: Chọn **Dify** vì có sẵn phân quyền (Workspace), RAG pipeline ổn định và hỗ trợ tiếng Việt tốt.
+  *   **Developer/Indie Hacker**: Chọn **Flowise** hoặc **LangFlow** để prototype nhanh và nhúng vào ứng dụng React/NextJS.
 </Card>

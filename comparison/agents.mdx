@@ -1,76 +1,45 @@
 ---
 title: 'Multi-Agent Orchestration'
-description: 'AgentGPT, CrewAI và LangGraph'
+description: 'So sánh AgentGPT, CrewAI và LangGraph với thông số thực tế'
 icon: 'people-arrows'
 ---
 
-# Multi-Agent Orchestration
+# Multi-Agent Orchestration (Chi tiết)
 
-Khi một LLM đơn lẻ không đủ thông minh để giải quyết vấn đề lớn, chúng ta cần một "đội ngũ" Agent.
+Khi một Agent đơn lẻ không đủ, chúng ta cần một đội ngũ. Dưới đây là thông số thực tế.
 
-## Các mô hình tư duy (Mental Models)
+## 1. Bảng so sánh "Official Specs"
+
+| Thông số | AgentGPT | CrewAI | LangGraph |
+| :--- | :--- | :--- | :--- |
+| **Giấy phép (License)** | **MIT** (Open Source). [[GitHub]](https://github.com/reworkd/AgentGPT) | **MIT** (Core framework). Enterprise features riêng. [[GitHub]](https://github.com/joaomdmoura/crewAI) | **MIT** (Core library). [[GitHub]](https://github.com/langchain-ai/langgraph) |
+| **Pricing (Cloud)** | **$40/tháng** (Pro). Free tier giới hạn daily loops. [[Pricing]](https://agentgpt.reworkd.ai/) | **Enterprise Only**. Core là thư viện Python miễn phí. [[Site]](https://www.crewai.com/) | **Free** (Self-hosted). LangSmith (Cloud) giá từ **$0.001/run**. [[Pricing]](https://www.langchain.com/pricing) |
+| **Mô hình** | **Autonomous Loops** on Browser | **Role-Playing Framework** (Code) | **State Machine / Graph** (Code) |
+
+<Warning>
+  **Giới hạn của AgentGPT (Pro Plan):**
+  Ngay cả gói Pro ($40) cũng có giới hạn **30 agents/ngày** và **25 loops/lần chạy**. Nó phù hợp để Demo hơn là chạy tác vụ Production liên tục.
+</Warning>
+
+## 2. So sánh tư duy (Mental Models)
 
 <CardGroup cols={3}>
   <Card title="AgentGPT" icon="globe">
-    **Loop-based**
-    Tư duy đơn giản: Cho 1 mục tiêu -> Agent tự chia task -> Tự thực hiện vòng lặp đến khi xong.
+    **Goal-based**
+    "Tôi muốn làm affiliate marketing". Agent tự chia nhỏ task, tự chạy, tự Google. Ít quyền kiểm soát.
   </Card>
   <Card title="CrewAI" icon="users">
-    **Role-Playing**
-    Tổ chức như một công ty: Có Manager, Researcher, Writer. Mỗi Agent có Role và Backstory riêng.
+    **Role-based**
+    "Tuyển 1 Researcher, 1 Writer". Bạn code định nghĩa vai trò của từng Agent, chúng nói chuyện với nhau bằng tiếng Anh (hoặc file cấu hình).
   </Card>
   <Card title="LangGraph" icon="diagram-project">
-    **State Machine**
-    Kiểm soát luồng đi bằng đồ thị tin cậy. Xác định rõ trạng thái nào thì đi đến node nào.
+    **Graph-based**
+    "Nếu A xong thì qua B, nếu lỗi thì quay lại A". Kiểm soát luồng đi cực chặt chẽ bằng Code (Graph theory). Ổn định nhất.
   </Card>
 </CardGroup>
 
-<Warning>
-  **Rủi ro của Loop-based Agents (AgentGPT)**
-  Rất dễ rơi vào **Infinite Loop** (Vòng lặp vô tận). Agent cứ làm đi làm lại một việc mà không thoát ra được, đốt cháy số tiền API của bạn trong vài phút. Không khuyến khích dùng cho Production.
-</Warning>
+## 3. Phán quyết (Verdict)
 
-## So sánh Chi tiết
-
-<Accordion title="Độ ổn định & Mức độ khó">
-  *   **AgentGPT**: Ổn định thấp (dễ ảo giác). Dễ dùng nhất (Web UI).
-  *   **CrewAI**: Ổn định trung bình. Dễ bắt đầu (Python code dễ đọc).
-  *   **LangGraph**: Ổn định cực cao (do control flow chặt chẽ). Khó học nhất (cần hiểu Graph theory cơ bản).
-</Accordion>
-
-## Tư duy Code (Code Thinking)
-
-<CodeGroup>
-  ```python CrewAI
-  from crewai import Agent
-
-  # Định nghĩa Role - Rất giống văn nói
-  researcher = Agent(
-    role='Researcher',
-    goal='Tìm kiếm tin tức AI',
-    backstory='Bạn là nhà báo công nghệ...',
-    verbose=True
-  )
-  ```
-
-  ```python LangGraph
-  from langgraph.graph import StateGraph
-
-  # Định nghĩa Graph - Tư duy kỹ thuật logic
-  class State(TypedDict):
-      messages: list[str]
-
-  def node_research(state):
-      # Logic here
-      return {"messages": ["Researched"]}
-
-  workflow = StateGraph(State)
-  workflow.add_node("research", node_research)
-  workflow.add_edge("research", END)
-  ```
-</CodeGroup>
-
-## Kết luận
-
-Nếu bạn cần **Demo nhanh** ý tưởng: Chọn **CrewAI**.
-Nếu bạn cần xây dựng ứng dụng **Production** chạy ổn định 24/7, xử lý logic phức tạp: Chọn **LangGraph**.
+*   **Production**: Bắt buộc chọn **LangGraph**. Sự kiểm soát trạng thái (State) và khả năng "Time Travel" (quay lại bước trước khi lỗi) là vô giá.
+*   **MVP / PoC**: Chọn **CrewAI**. Dễ viết, code giống văn nói, setup nhanh một team agent để test ý tưởng.
+*   **Nghịch ngợm / Demo**: Chọn **AgentGPT**. Chạy ngay trên web, không cần cài đặt.
