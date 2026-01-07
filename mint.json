@@ -1,25 +1,37 @@
 {
-  "name": "AI Agent Research",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navigation": [
-    {
-      "group": "Tổng quan",
-      "pages": ["introduction", "executive-summary"]
+    "name": "AI Agent Research",
+    "favicon": "/favicon.svg",
+    "colors": {
+        "primary": "#0D9488",
+        "light": "#14B8A6",
+        "dark": "#0F766E"
     },
-    {
-      "group": "So sánh Công cụ",
-      "pages": [
-        "comparison/automation-tools",
-        "comparison/llm-builders",
-        "comparison/agent-frameworks"
-      ]
+    "logo": {
+        "light": "/logo/light.svg",
+        "dark": "/logo/dark.svg"
     },
-    {
-      "group": "Chiến lược",
-      "pages": ["strategy/use-cases", "strategy/roadmap"]
-    }
-  ]
+    "navigation": [
+        {
+            "group": "Tổng quan",
+            "pages": [
+                "introduction",
+                "executive-summary"
+            ]
+        },
+        {
+            "group": "So sánh Công cụ",
+            "pages": [
+                "comparison/automation-tools",
+                "comparison/llm-builders",
+                "comparison/agent-frameworks"
+            ]
+        },
+        {
+            "group": "Chiến lược",
+            "pages": [
+                "strategy/use-cases",
+                "strategy/roadmap"
+            ]
+        }
+    ]
 }
