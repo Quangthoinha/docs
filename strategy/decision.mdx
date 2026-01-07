@@ -1,0 +1,49 @@
+---
+title: 'Chiến lược & Lời khuyên'
+description: 'Phán quyết cuối cùng từ góc độ CTO'
+---
+
+# Chiến lược & Lời khuyên (Decision Guide)
+
+Lời khuyên "xương máu" khi lựa chọn công nghệ cho dự án AI Agent.
+
+## Use Case Winner (Người chiến thắng)
+
+<CardGroup cols={2}>
+  <Card title="Best for Enterprise Automation" icon="building">
+    **WINNER: n8n**
+    
+    *   **Lý do**: Khả năng Self-hosting giúp bảo mật dữ liệu tuyệt đối (không gửi data ra server ngoài).
+    *   **Audit**: Hệ thống log chi tiết từng node execution.
+    *   **RBAC**: Bản Enterprise hỗ trợ phân quyền user chi tiết.
+  </Card>
+  <Card title="Best for AI RAG Chatbot" icon="robot">
+    **WINNER: Dify**
+    
+    *   **Lý do**: Pipeline RAG được tối ưu cực tốt (Chunking, Indexing, Re-ranking đều có sẵn).
+    *   **Hybrid Search**: Kết hợp Keyword search và Vector search để tăng độ chính xác tìm kiếm.
+    *   **Model Agnostic**: Dễ dàng đổi từ GPT-4 sang Claude 3.5 Sonnet hay Llama 3 chỉ bằng 1 cú click.
+  </Card>
+</CardGroup>
+
+## Deal Breakers (Lý do TỪ CHỐI)
+
+Tại sao một Senior Developer hoặc CTO lại **KHÔNG** chọn một công cụ?
+
+<Warning>
+  **1. Thiếu Version Control (Git Integration)**
+  Nhiều tool No-code (như bản Activepieces cũ hoặc Flowise cơ bản) lưu flow trong Database.
+  => **Hậu quả**: Không thể Review Code, không thể rollback về phiên bản cũ chính xác, rất khó làm việc nhóm. Hãy ưu tiên tool xuất được file JSON/YAML để lưu vào Git.
+</Warning>
+
+<Warning>
+  **2. Debugging ác mộng**
+  Khi workflow có 100 node và lỗi ở node thứ 57, công cụ có cho phép bạn "Chạy lại từ node 57" không? Hay bắt chạy lại từ đầu?
+  => **Make.com** và **n8n** làm rất tốt việc này. Các tool mới nổi thường thiếu tính năng debug chi tiết.
+</Warning>
+
+<Warning>
+  **3. Performance khi Scale**
+  Workflow chạy cho 10 user thì mượt. Nhưng 10.000 user thì sao?
+  => LangChain thuần (Python code) sẽ scale tốt hơn các tool kéo thả UI vì bớt overhead của platform. Activepieces/n8n cần hạ tầng Redis/Worker mạnh mẽ để chịu tải.
+</Warning>

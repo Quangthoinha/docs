@@ -1,0 +1,84 @@
+---
+title: 'Thông số Kỹ thuật & Hạ tầng'
+description: 'Phân tích sâu về Deployment, Resource và License'
+---
+
+# Thông số Kỹ thuật & Hạ tầng (Specs & Infrastructure)
+
+Phân tích Activepieces vs n8n vs Make dưới góc độ DevOps và System Architect.
+
+## Bảng so sánh thông số (Technical Specs)
+
+| Tiêu chí | Activepieces | n8n | Make.com |
+| :--- | :--- | :--- | :--- |
+| **Backend Language** | TypeScript (Node.js) | TypeScript (Node.js) | Closed Source |
+| **License** | MIT (Open Source) | Fair-code (Hạn chế thương mại) | SaaS Only |
+| **Database** | PostgreSQL | PostgreSQL / SQLite | N/A |
+| **Queue** | Redis | Redis (cho chế độ Scaling) | N/A |
+| **Min RAM (Self-hosted)** | ~2GB (Khuyên dùng 4GB) | ~512MB (Khuyên dùng 1GB) | N/A |
+| **CPU (1000 exec/day)** | 1-2 vCPU | 1 vCPU | N/A |
+
+<Warning>
+  **Cảnh báo về "Hard Limits"**
+  
+  *   **Make.com**: Timeout mặc định thường là **40 phút** (Standard plan). Kích thước file xử lý tối đa phụ thuộc vào gói, nhưng thường giới hạn ở mức vài trăm MB.
+  *   **Activepieces (Cloud)**: Có giới hạn timeout là **10 phút**. Nếu workflow chạy Agent AI suy luận lâu quá thời gian này sẽ bị kill.
+  *   **n8n (Default)**: Timeout mặc định là **2 phút** cho webhook, nhưng có thể cấu hình lên tới **vài giờ** nếu self-host và tinh chỉnh biến môi trường `EXECUTIONS_TIMEOUT`.
+</Warning>
+
+## Hướng dẫn Deploy (Docker)
+
+<Accordion title="Xem file docker-compose.yml mẫu cho Activepieces">
+```yaml
+version: '3'
+services:
+  activepieces:
+    image: activepieces/activepieces:latest
+    container_name: activepieces
+    ports:
+      - "8080:80"
+    environment:
+      - AP_ENCRYPTION_KEY=Doi_nay_thanh_key_ngau_nhien_256bit
+      - AP_POSTGRES_DATABASE=activepieces
+      - AP_POSTGRES_HOST=postgres
+      - AP_POSTGRES_PORT=5432
+      - AP_POSTGRES_USERNAME=postgres
+      - AP_POSTGRES_PASSWORD=postgres
+      - AP_REDIS_HOST=redis
+      - AP_REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=activepieces
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+```
+</Accordion>
+
+<Accordion title="Xem file docker-compose.yml mẫu cho n8n">
+```yaml
+version: '3'
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=matkhau
+      - N8N_HOST=localhost
+      - N8N_PROTOCOL=http
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+```
+</Accordion>

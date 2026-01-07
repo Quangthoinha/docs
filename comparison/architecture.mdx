@@ -1,0 +1,94 @@
+---
+title: 'Kiến trúc & Luồng dữ liệu'
+description: 'So sánh LangGraph và CrewAI về State Management'
+---
+
+# Kiến trúc & Luồng dữ liệu (Architecture)
+
+Phân tích sâu về cơ chế hoạt động của các Multi-Agent Frameworks hàng đầu.
+
+## State Management (Quản lý trạng thái)
+
+<Info>
+  **State là gì?**
+  Là "trí nhớ" của Agent. Khi hội thoại kéo dài, Agent cần nhớ những gì user đã nói trước đó, và kết quả của các step trước.
+</Info>
+
+### LangGraph
+*   **Cơ chế**: LangGraph coi toàn bộ quy trình là một đồ thị (Graph). Trạng thái (State) là một object được truyền đi qua các Node.
+*   **Lưu trữ**: Hỗ trợ **Persistent Checkpointing**. Bạn có thể lưu trạng thái vào Postgres hoặc Redis sau mỗi step. Điều này cho phép "Time Travel" (quay lui về quá khứ) hoặc resume quy trình bị lỗi.
+*   **Luồng**: Rất tường minh (Explicit). Bạn phải định nghĩa rõ: Node A -> Node B (nếu điều kiện X).
+
+### CrewAI
+*   **Cơ chế**: Sử dụng mô hình "Role-playing". Các Agent tự nói chuyện với nhau để giải quyết Task.
+*   **Context Window**: CrewAI tự động quản lý context window bằng cách tóm tắt (summarize) hoặc cắt bớt (truncate) lịch sử hội thoại khi nó quá dài, giúp tiết kiệm token nhưng đôi khi làm mất chi tiết quan trọng.
+*   **Luồng**: Tự động và khá "Magic". Đôi khi bạn không kiểm soát được Agent A sẽ nói gì với Agent B.
+
+## Ví dụ Code Definition
+
+<CodeGroup>
+  ```python LangGraph (Python)
+  from typing import TypedDict, Annotated
+  from langgraph.graph import StateGraph, END
+
+  # 1. Định nghĩa cấu trúc State
+  class AgentState(TypedDict):
+      messages: list[str]
+      current_step: str
+
+  # 2. Định nghĩa các Node (Hàm xử lý)
+  def research_node(state: AgentState):
+      return {"messages": ["Đang nghiên cứu..."], "current_step": "research"}
+
+  def write_node(state: AgentState):
+      return {"messages": ["Đang viết bài..."], "current_step": "write"}
+
+  # 3. Kết nối Graph
+  workflow = StateGraph(AgentState)
+  workflow.add_node("researcher", research_node)
+  workflow.add_node("writer", write_node)
+
+  workflow.add_edge("researcher", "writer") # Đi thẳng từ research -> write
+  workflow.add_edge("writer", END)
+
+  app = workflow.compile()
+  ```
+
+  ```python CrewAI (Python)
+  from crewai import Agent, Task, Crew
+
+  # 1. Định nghĩa Agent với Role cụ thể
+  researcher = Agent(
+    role='Researcher',
+    goal='Tìm kiếm thông tin chính xác',
+    backstory='Bạn là chuyên gia phân tích dữ liệu...',
+    verbose=True
+  )
+
+  writer = Agent(
+    role='Writer',
+    goal='Viết bài blog hấp dẫn',
+    backstory='Bạn là copywriter chuyên nghiệp...',
+    verbose=True
+  )
+
+  # 2. Định nghĩa Task
+  task1 = Task(description='Tìm hiểu về AI Agent', agent=researcher)
+  task2 = Task(description='Viết bài blog từ thông tin trên', agent=writer)
+
+  # 3. Tạo Crew và Kickoff
+  crew = Crew(
+    agents=[researcher, writer],
+    tasks=[task1, task2],
+    verbose=2
+  )
+
+  result = crew.kickoff()
+  ```
+</CodeGroup>
+
+<Info>
+  **Human-in-the-loop (Con người can thiệp)**
+  *   **LangGraph**: Cung cấp cơ chế `interrupt_before` hoặc `interrupt_after` tại một Node cụ thể. Hệ thống sẽ **DỪNG LẠI** chờ API call từ người dùng để resume.
+  *   **CrewAI**: Có tham số `human_input=True` trong định nghĩa Agent. Agent sẽ hỏi người dùng (qua CLI hoặc UI) trước khi thực hiện hành động quan trọng.
+</Info>

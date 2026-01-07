@@ -23,14 +23,22 @@
             "pages": [
                 "comparison/automation-tools",
                 "comparison/llm-builders",
-                "comparison/agent-frameworks"
+                "comparison/agent-frameworks",
+                "comparison/specs"
+            ]
+        },
+        {
+            "group": "Phân tích Kỹ thuật",
+            "pages": [
+                "comparison/architecture"
             ]
         },
         {
             "group": "Chiến lược",
             "pages": [
                 "strategy/use-cases",
-                "strategy/roadmap"
+                "strategy/roadmap",
+                "strategy/decision"
             ]
         }
     ]
