@@ -1,0 +1,32 @@
+---
+title: Use Cases
+description: 'Các trường hợp sử dụng thực tế'
+---
+
+# Use Cases
+
+Tổng hợp các kịch bản áp dụng thành công.
+
+## 1. Tự động hóa Chăm sóc khách hàng (CSKH)
+
+- **Vấn đề**: Nhân viên tốn 4h/ngày để trả lời các câu hỏi lặp lại.
+- **Giải pháp**:
+  - Dùng **n8n** lắng nghe tin nhắn từ Facebook/Zalo.
+  - Gửi qua **Dify** (đã nạp kiến thức sản phẩm) để sinh câu trả lời.
+  - Vòng người duyệt (Human in the loop) nếu điểm tin cậy thấp.
+- **Kết quả**: Giảm 70% thời gian phản hồi.
+
+## 2. Phân tích đối thủ cạnh tranh
+
+- **Vấn đề**: Cần theo dõi giá và content của 10 đối thủ hàng ngày.
+- **Giải pháp**:
+  - Agent (dùng **LangChain**) định kỳ crawl web đối thủ.
+  - Tóm tắt thay đổi và gửi báo cáo về Telegram mỗi sáng.
+- **Kết quả**: Nắm bắt thị trường realtime.
+
+## 3. Onboarding nhân sự mới
+
+- **Vấn đề**: Tài liệu nội bộ nằm rải rác, nhân viên mới hỏi nhiều.
+- **Giải pháp**:
+  - Upload toàn bộ PDF, Wiki vào **Dify**.
+  - Tạo Chatbot "HR Buddy" cho nhân viên mới hỏi đáp về quy định, wifi, quy trình.

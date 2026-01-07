@@ -1,0 +1,26 @@
+---
+title: Agent Frameworks
+description: 'So sánh các framework lập trình Agent'
+---
+
+# Agent Frameworks
+
+Đối với các bài toán phức tạp đòi hỏi code tùy chỉnh cao, Frameworks là lựa chọn bắt buộc.
+
+| Framework | Ngôn ngữ | Đặc điểm chính |
+| :--- | :--- | :--- |
+| **LangChain** | Python/JS | Tiêu chuẩn ngành, hệ sinh thái khổng lồ, nhưng đôi khi cồng kềnh. |
+| **LangGraph** | Python | Tập trung vào việc xây dựng stateful, multi-actor applications (Multi-Agent). Kiểm soát luồng tốt hơn LangChain thuần. |
+| **Autogen** | Python | Của Microsoft. Mạnh về việc tạo ra nhiều agent nói chuyện với nhau để giải quyết vấn đề. |
+| **CrewAI** | Python | Layer trên của LangChain, giúp định nghĩa Role và Task cho Agent dễ dàng hơn. |
+
+## So sánh Autogen vs LangGraph
+
+<CardGroup cols={2}>
+  <Card title="Autogen" icon="microsoft">
+    Tốt cho việc mô phỏng hội thoại (Conversation patterns). Dễ bắt đầu, "magical" nhưng khó debug khi agent đi lạc hướng.
+  </Card>
+  <Card title="LangGraph" icon="circle-nodes">
+    Tốt cho việc kiểm soát trạng thái (State machines). Code rõ ràng, tường minh về luồng đi của dữ liệu. Khó học hơn ban đầu.
+  </Card>
+</CardGroup>

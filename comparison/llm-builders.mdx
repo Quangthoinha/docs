@@ -1,0 +1,38 @@
+---
+title: LLM Builders
+description: 'So sánh Dify, Flowise và các nền tảng khác'
+---
+
+# LLM Builders
+
+Các nền tảng No-code/Low-code giúp xây dựng ứng dụng LLM nhanh chóng.
+
+<CardGroup cols={2}>
+  <Card title="Dify" icon="cube">
+    Nền tảng phát triển ứng dụng LLM mã nguồn mở, hỗ trợ RAG engine mạnh mẽ và quản lý backend.
+  </Card>
+  <Card title="Flowise" icon="network-wired">
+    Kéo thả các node LangChain để xây dựng flow. Thích hợp cho việc prototyping nhanh luồng xử lý cực phức tạp.
+  </Card>
+  <Card title="Botpress" icon="robot">
+    Tập trung vào Chatbot truyền thống tích hợp AI.
+  </Card>
+  <Card title="AgentGPT" icon="globe">
+    Autonomous AI Agent trên trình duyệt.
+  </Card>
+</CardGroup>
+
+## Deep Dive
+
+<AccordionGroup>
+  <Accordion title="Tại sao chọn Dify thay vì Flowise?">
+    Dify cung cấp giải pháp RAG trọn gói (Full-stack) và giao diện người dùng cuối (End-user UI) tốt hơn, phù hợp để doanh nghiệp triển khai ngay lập tức (Production-ready). Nó quản lý cả Knowledge Base và API keys tập trung.
+  </Accordion>
+  <Accordion title="Rủi ro của AgentGPT là gì?">
+    AgentGPT hoạt động tốt ở mức Demo, nhưng khó kiểm soát vòng lặp (Loop) và trạng thái (State) trong môi trường Production. Nó thường bị "kẹt" trong suy nghĩ vô hạn hoặc tốn token lớn.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Lưu ý quan trọng: Hầu hết các tool Builder đều phụ thuộc vào API của OpenAI/Anthropic. Hãy chú ý quản lý chi phí token.
+</Warning>

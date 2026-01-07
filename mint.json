@@ -1,0 +1,25 @@
+{
+  "name": "AI Agent Research",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navigation": [
+    {
+      "group": "Tổng quan",
+      "pages": ["introduction", "executive-summary"]
+    },
+    {
+      "group": "So sánh Công cụ",
+      "pages": [
+        "comparison/automation-tools",
+        "comparison/llm-builders",
+        "comparison/agent-frameworks"
+      ]
+    },
+    {
+      "group": "Chiến lược",
+      "pages": ["strategy/use-cases", "strategy/roadmap"]
+    }
+  ]
+}
