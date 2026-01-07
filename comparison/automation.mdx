@@ -1,80 +1,58 @@
 ---
 title: 'Workflow Automation'
-description: 'So sánh Activepieces, n8n và Make'
+description: 'So sánh Activepieces, n8n và Make với dẫn chứng xác thực'
 icon: 'bolt'
 ---
 
-# Workflow Automation
+# Workflow Automation (Chi tiết)
 
-Tự động hóa quy trình là bước đệm đầu tiên để đưa AI vào thực tế. Dưới đây là phân tích chi tiết bộ 3 công cụ phổ biến nhất hiện nay.
+Phân tích định lượng dựa trên tài liệu chính thức.
 
-## Bảng so sánh nhanh (Quick Specs)
+<Info>
+  Dữ liệu được cập nhật mới nhất vào tháng 1/2026. Các thông số có link [Official] là thông tin được trích dẫn trực tiếp từ trang chủ.
+</Info>
 
-| Tính năng | Activepieces | n8n | Make.com |
-| :--- | :--- | :--- | :--- |
-| **Language** | TypeScript | TypeScript | Closed Source |
-| **Self-hosted** | ✅ Có (Docker) | ✅ Có (Docker/npm) | ❌ Không (SaaS) |
-| **Pricing** | Open Source (Free core) | Fair-code (Free self-host) | Tính theo Ops (Đắt) |
-| **Mức độ khó** | ⭐⭐⭐ (Trung bình) | ⭐⭐⭐⭐ (Khá khó) | ⭐⭐ (Dễ) |
+## 1. So sánh n8n vs Activepieces
 
-## Tổng quan công cụ
+### Giấy phép & Mã nguồn (License)
 
-<CardGroup cols={3}>
-  <Card title="Activepieces" icon="bolt">
-    **Best for Open Source**
-    Trình duyệt automation mã nguồn mở phát triển nhanh nhất. Nhẹ, hỗ trợ MCP và cộng đồng active.
-  </Card>
-  <Card title="n8n" icon="workflow">
-    **Best for Developers**
-    Sức mạnh vô hạn. Cho phép viết code JS/Python trực tiếp trong node. Xử lý dữ liệu lớn (Bulk) cực tốt.
-  </Card>
-  <Card title="Make" icon="cloud">
-    **Best for Business Users**
-    Giao diện "bong bóng" trực quan nhất thế giới. Ổn định, nhiều tích hợp sẵn, nhưng giá chát khi scale.
-  </Card>
-</CardGroup>
+| Tiêu chí | n8n | Activepieces |
+| :--- | :--- | :--- |
+| **Loại License** | **Fair-code** (Sustainable Use License) | **Open Source** (MIT License) |
+| **Ý nghĩa** | Được miễn phí cho nội bộ. **CẤM** bán lại hoặc kinh doanh trên n8n nếu không mua license thương mại. | Được quyền sửa đổi, thương mại hóa, white-label thoải mái hơn. |
+| **Link kiểm chứng** | [n8n License Docs](https://docs.n8n.io/reference/license/) | [GitHub License](https://github.com/activepieces/activepieces/blob/main/LICENSE) |
 
-## Phân tích sâu (Deep Dive)
-
-<AccordionGroup>
-  <Accordion title="Ưu điểm và Nhược điểm của Activepieces">
-    **Ưu điểm:**
-    *   Mã nguồn mở (MIT License), bạn thực sự sở hữu dữ liệu.
-    *   UX đơn giản hơn n8n, sạch sẽ.
-    *   Hỗ trợ AI Agent native khá tốt.
-
-    **Nhược điểm:**
-    *   Sinh sau đẻ muộn, số lượng Pieces (integrations) ít hơn Make.
-    *   Chưa có tính năng xử lý lỗi (Error handling) mạnh như n8n.
-  </Accordion>
-
-  <Accordion title="Ưu điểm và Nhược điểm của n8n">
-    **Ưu điểm:**
-    *   Linh hoạt tuyệt đối: Code node cho phép làm mọi thứ.
-    *   Workflow phức tạp: Hỗ trợ Loop, If-Else, Switch, Merge dữ liệu cực mạnh.
-    *   LangChain Integration: Có node LangChain tích hợp sẵn để build AI.
-
-    **Nhược điểm:**
-    *   Learning Curve cao: Không dành cho người sợ code.
-    *   Resource Heavy: Bản self-host ngốn RAM nếu không tối ưu.
-  </Accordion>
-
-  <Accordion title="Ưu điểm và Nhược điểm của Make">
-    **Ưu điểm:**
-    *   Cực kỳ trực quan, dễ hiểu luồng đi của dữ liệu.
-    *   Error handling (Ignore, Rollback) rất trực quan.
-    *   Hệ sinh thái App khổng lồ.
-
-    **Nhược điểm:**
-    *   Giá rất đắt khi chạy hàng nghìn operations mỗi ngày.
-    *   Không thể Self-host (Dữ liệu phải đi qua server của Make).
-  </Accordion>
-</AccordionGroup>
+### Chi phí (Pricing)
 
 <Warning>
-  **Phán quyết (Verdict)**
-  
-  *   Chọn **Make** nếu bạn có ngân sách, cần sự ổn định ngay lập tức và quy trình không quá phức tạp.
-  *   Chọn **n8n** nếu bạn là team kỹ thuật, cần xử lý dữ liệu phức tạp, bảo mật dữ liệu khách hàng (Self-host) và tích hợp sâu AI.
-  *   Chọn **Activepieces** nếu bạn thích Open Source, muốn nhúng automation vào sản phẩm của mình (Embed).
+  Lưu ý: Bảng giá dưới đây dành cho bản **Cloud**. Bản Self-hosted của n8n có cơ chế tính tiền riêng (trả theo số lượng execution cho bản Enterprise).
 </Warning>
+
+| Gói | n8n Cloud | Activepieces Cloud |
+| :--- | :--- | :--- |
+| **Free Tier** | Không có gói Free vĩnh viễn (Chỉ Trial) | **1,000 tasks/tháng**, 2 active flow. [[Pricing]](https://www.activepieces.com/pricing) |
+| **Starter** | **€20/tháng** (2.5k executions). [[Pricing]](https://n8n.io/pricing) | **$25/tháng** (Tasks không giới hạn*, 10 flows). |
+| **Mở rộng** | Giá tăng theo số lượng Execution. | Giá tăng theo số lượng Flow active. |
+
+### Giới hạn Kỹ thuật (Technical Limits)
+
+<Note>
+  Các giới hạn dưới đây áp dụng cho bản Cloud mặc định. Bản Self-hosted có thể cấu hình lại tùy phần cứng của bạn.
+</Note>
+
+| Thông số | n8n (Cloud Starter) | Activepieces (Cloud Pro) |
+| :--- | :--- | :--- |
+| **Execution Timeout** | Không công bố rõ ràng [Cần kiểm tra] | **600 giây (10 phút)**. [[Docs]](https://www.activepieces.com/docs/developers/building-pieces/limits) |
+| **RAM** | Phụ thuộc gói | **1024 MB**. [[Docs]](https://www.activepieces.com/docs/developers/building-pieces/limits) |
+| **File Size** | Binary data lớn OK (stream) | Giới hạn file tải lên thường là 10MB/file. |
+
+## 2. Phán quyết (Verdict)
+
+<CardGroup cols={2}>
+  <Card title="Chọn Activepieces" icon="check">
+    Nếu bạn cần **Open Source thực sự (MIT)** để nhúng sâu vào sản phẩm (White-label) hoặc ngân sách eo hẹp (Gói Free ngon hơn).
+  </Card>
+  <Card title="Chọn n8n" icon="check">
+    Nếu bạn chấp nhận license Fair-code để đổi lấy **tính năng xử lý dữ liệu (Data transformation)** cực mạnh và cộng đồng hỗ trợ lớn hơn.
+  </Card>
+</CardGroup>
