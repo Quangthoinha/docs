@@ -1,0 +1,76 @@
+---
+title: 'Multi-Agent Orchestration'
+description: 'AgentGPT, CrewAI và LangGraph'
+icon: 'people-arrows'
+---
+
+# Multi-Agent Orchestration
+
+Khi một LLM đơn lẻ không đủ thông minh để giải quyết vấn đề lớn, chúng ta cần một "đội ngũ" Agent.
+
+## Các mô hình tư duy (Mental Models)
+
+<CardGroup cols={3}>
+  <Card title="AgentGPT" icon="globe">
+    **Loop-based**
+    Tư duy đơn giản: Cho 1 mục tiêu -> Agent tự chia task -> Tự thực hiện vòng lặp đến khi xong.
+  </Card>
+  <Card title="CrewAI" icon="users">
+    **Role-Playing**
+    Tổ chức như một công ty: Có Manager, Researcher, Writer. Mỗi Agent có Role và Backstory riêng.
+  </Card>
+  <Card title="LangGraph" icon="diagram-project">
+    **State Machine**
+    Kiểm soát luồng đi bằng đồ thị tin cậy. Xác định rõ trạng thái nào thì đi đến node nào.
+  </Card>
+</CardGroup>
+
+<Warning>
+  **Rủi ro của Loop-based Agents (AgentGPT)**
+  Rất dễ rơi vào **Infinite Loop** (Vòng lặp vô tận). Agent cứ làm đi làm lại một việc mà không thoát ra được, đốt cháy số tiền API của bạn trong vài phút. Không khuyến khích dùng cho Production.
+</Warning>
+
+## So sánh Chi tiết
+
+<Accordion title="Độ ổn định & Mức độ khó">
+  *   **AgentGPT**: Ổn định thấp (dễ ảo giác). Dễ dùng nhất (Web UI).
+  *   **CrewAI**: Ổn định trung bình. Dễ bắt đầu (Python code dễ đọc).
+  *   **LangGraph**: Ổn định cực cao (do control flow chặt chẽ). Khó học nhất (cần hiểu Graph theory cơ bản).
+</Accordion>
+
+## Tư duy Code (Code Thinking)
+
+<CodeGroup>
+  ```python CrewAI
+  from crewai import Agent
+
+  # Định nghĩa Role - Rất giống văn nói
+  researcher = Agent(
+    role='Researcher',
+    goal='Tìm kiếm tin tức AI',
+    backstory='Bạn là nhà báo công nghệ...',
+    verbose=True
+  )
+  ```
+
+  ```python LangGraph
+  from langgraph.graph import StateGraph
+
+  # Định nghĩa Graph - Tư duy kỹ thuật logic
+  class State(TypedDict):
+      messages: list[str]
+
+  def node_research(state):
+      # Logic here
+      return {"messages": ["Researched"]}
+
+  workflow = StateGraph(State)
+  workflow.add_node("research", node_research)
+  workflow.add_edge("research", END)
+  ```
+</CodeGroup>
+
+## Kết luận
+
+Nếu bạn cần **Demo nhanh** ý tưởng: Chọn **CrewAI**.
+Nếu bạn cần xây dựng ứng dụng **Production** chạy ổn định 24/7, xử lý logic phức tạp: Chọn **LangGraph**.

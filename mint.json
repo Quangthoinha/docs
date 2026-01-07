@@ -21,9 +21,9 @@
         {
             "group": "So sánh Công cụ",
             "pages": [
-                "comparison/automation-tools",
-                "comparison/llm-builders",
-                "comparison/agent-frameworks",
+                "comparison/automation",
+                "comparison/builders",
+                "comparison/agents",
                 "comparison/specs"
             ]
         },
@@ -36,6 +36,7 @@
         {
             "group": "Chiến lược",
             "pages": [
+                "strategy/tech-stack",
                 "strategy/use-cases",
                 "strategy/roadmap",
                 "strategy/decision"

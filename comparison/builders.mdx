@@ -1,0 +1,44 @@
+---
+title: 'LLM App Builders'
+description: 'So sánh Flowise, Dify và LangFlow'
+icon: 'layer-group'
+---
+
+# LLM App Builders
+
+Xây dựng ứng dụng AI không còn cần phải code thủ công 100%. Các nền tảng Low-code đã thay đổi cuộc chơi.
+
+## So sánh kỹ thuật
+
+| Tiêu chí | Dify.AI | Flowise | LangFlow |
+| :--- | :--- | :--- | :--- |
+| **Loại hình** | Product (All-in-one) | Tool (Dev tool) | Tool (Dev tool) |
+| **RAG Engine** | ✅ Built-in (Chunking, Retrieval) | ⚠️ Tự build node | ⚠️ Tự build node |
+| **End-user UI** | ✅ Tuyệt đẹp (Chat, Webapp) | ❌ Cơ bản (Embed) | ❌ Cơ bản (Playground) |
+| **Deploy** | Docker / Cloud | Docker / NPM | Docker / Pip |
+
+<Info>
+  **Sự khác biệt cốt lõi: Tool vs Product**
+  *   **Flowise/LangFlow** là "Tool" dành cho Developer. Nó cho bạn các mảnh ghép (node) Lego để bạn tự lắp.
+  *   **Dify** là "Product" hoàn chỉnh. Nó đã lắp sẵn khung nhà (RAG, Authen, API Management), bạn chỉ việc sơn màu và bỏ nội thất vào.
+</Info>
+
+## Deep Dive: Tại sao Dify thắng thế?
+
+<Accordion title="Tại sao Dify thắng thế trong doanh nghiệp?">
+  Trong môi trường doanh nghiệp, bạn không chỉ cần một cái "Flow" chạy được. Bạn cần:
+  1.  **Quản lý Knowledge Base**: Dify cho phép upload PDF, tự động segment, tạo index vector chỉ với 1 click. Flowise bắt bạn phải hiểu Vector Store là gì, Embeddings là gì để kéo node.
+  2.  **API Management**: Dify cấp API Key riêng cho từng App, có Rate limit, Log monitor.
+  3.  **Team Collaboration**: Dify có Workspace cho nhiều người cùng làm việc.
+</Accordion>
+
+<Tip>
+  **Khi nào nên dùng Flowise?**
+  Khi bạn muốn **Rapid Prototyping** (làm mẫu nhanh) một luồng logic cực dị mà Dify chưa hỗ trợ. Ví dụ: Bạn muốn kết hợp 3 mô hình LLM khác nhau để tranh luận, sau đó lưu vào Airtable. Flowise kéo thả cực nhanh cho việc này.
+</Tip>
+
+## Winner
+
+<Card title="The Winner: Dify.AI" icon="trophy">
+  Đối với bài toán xây dựng Chatbot, Knowledge Base cho doanh nghiệp và triển khai Production, **Dify** là lựa chọn số 1 hiện nay nhờ tính trọn gói và ổn định (Production-ready).
+</Card>

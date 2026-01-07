@@ -1,0 +1,53 @@
+---
+title: 'Chiến lược Tech Stack'
+description: 'Kiến trúc hệ thống Multi-Agent đề xuất cho doanh nghiệp'
+icon: 'layer-group'
+---
+
+Để xây dựng một hệ thống bền vững, dễ bảo trì và mở rộng, chúng tôi đề xuất mô hình **Layered Architecture** (Kiến trúc phân lớp) sau đây:
+
+<Steps>
+  <Step title="Lớp 1: Giao tiếp & Tri thức (The Face)" icon="comments">
+    **Công cụ: Dify.AI**
+    
+    Đóng vai trò là cổng giao tiếp (Gateway) với người dùng cuối.
+    * Quản lý Knowledge Base (RAG) từ tài liệu PDF/Word.
+    * Cung cấp giao diện Chat UI đẹp, có sẵn Authentication.
+    * Xử lý các tác vụ logic đơn giản.
+  </Step>
+
+  <Step title="Lớp 2: Kết nối & Vận hành (The Hands)" icon="bolt">
+    **Công cụ: Activepieces hoặc n8n**
+    
+    Đóng vai trò là "tay chân" thực thi hành động.
+    * Nhận tín hiệu từ Dify (qua API Request).
+    * Kết nối với CRM, Email, Slack, Google Sheets.
+    * Xử lý logic dữ liệu (JSON) trước khi trả về.
+  </Step>
+
+  <Step title="Lớp 3: Bộ não xử lý phức tạp (The Brain)" icon="brain">
+    **Công cụ: LangGraph (Python)**
+    
+    Đóng vai trò xử lý các tác vụ chuyên sâu mà No-code không làm được.
+    * Chạy các Agent phân tích dữ liệu (Pandas/SQL).
+    * Coding Agent tự sửa lỗi.
+    * Duy trì trạng thái hội thoại phức tạp (State management).
+  </Step>
+</Steps>
+
+<Info>
+  **Tại sao lại tách rời?**
+  Việc tách Dify (Chat) và n8n (Action) giúp bạn dễ dàng thay thế từng thành phần mà không đập đi xây lại toàn bộ hệ thống. Dev làm việc ở Layer 3, Business User tự sửa quy trình ở Layer 2.
+</Info>
+
+<Check>
+  **Lợi ích đạt được:**
+  *   Tách biệt trách nhiệm (Separation of Concerns).
+  *   Dễ dàng tuyển dụng nhân sự cho từng mảng (No-code vs Code).
+  *   Khả năng mở rộng vô hạn.
+</Check>
+
+<Note>
+  **Lời khuyên cuối cùng cho CTO:**
+  Đừng cố gắng tìm một công cụ làm được tất cả mọi thứ. "Silver Bullet" không tồn tại. Hãy kết hợp sức mạnh của Best-of-breed tools.
+</Note>
