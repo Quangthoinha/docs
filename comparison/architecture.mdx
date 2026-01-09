@@ -92,3 +92,27 @@ Phân tích sâu về cơ chế hoạt động của các Multi-Agent Frameworks
   *   **LangGraph**: Cung cấp cơ chế `interrupt_before` hoặc `interrupt_after` tại một Node cụ thể. Hệ thống sẽ **DỪNG LẠI** chờ API call từ người dùng để resume.
   *   **CrewAI**: Có tham số `human_input=True` trong định nghĩa Agent. Agent sẽ hỏi người dùng (qua CLI hoặc UI) trước khi thực hiện hành động quan trọng.
 </Info>
+
+## Các Phương Pháp Luận Tiên Tiến (Methodologies)
+
+Để các công cụ trên hoạt động hiệu quả, dưới đây là các kiến trúc kỹ thuật nền tảng:
+
+### Multi-Agent Design Patterns
+*   **Hierarchical (Phân cấp)**: Có 1 Manager điều phối các Worker.
+*   **Sequential (Tuần tự)**: Output người này là Input người kia.
+*   **Joint Chat**: Các Agent cùng tham gia hội thoại để giải quyết vấn đề.
+
+### Agentic RAG
+Nâng cấp RAG truyền thống. Thay vì chỉ truy vấn thụ động, Agent có khả năng:
+1.  **Chiến lược tìm kiếm**: Tự đánh giá câu hỏi để chọn chiến lược (Vector search vs Keyword search).
+2.  **Tool Use**: Dùng công cụ (Search Web, Query SQL) nếu dữ liệu trong Vector DB không đủ.
+3.  **Self-Correction**: Tự sửa lại câu truy vấn nếu không tìm thấy kết quả.
+
+### CodeACT (Code as Action)
+Một bước tiến quan trọng cho Coding Agent (như GLM Coding).
+*   **Cơ chế**: Thay vì trả về văn bản mô tả cách làm, Agent sẽ **viết và thực thi code Python** (trong môi trường Sandbox/Docker).
+*   **Lợi ích**: Tăng độ chính xác so với việc LLM chỉ "chém gió" bằng text. Xử lý trực tiếp file, tính toán, vẽ biểu đồ.
+
+### OpenAI Agent SDK
+*   **Stateful Agents**: Sử dụng Assistants API để tạo ra các Agent có bộ nhớ (Thread persistence).
+*   **Ứng dụng**: Phục vụ nghiệp vụ kinh doanh cụ thể (Sales), kết hợp Function Calling để chốt đơn hàng.

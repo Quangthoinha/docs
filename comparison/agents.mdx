@@ -1,6 +1,6 @@
 ---
-title: 'Multi-Agent Orchestration'
-description: 'So sánh AgentGPT, CrewAI và LangGraph với thông số thực tế'
+title: 'Autonomous & Specialized Agents'
+description: 'So sánh AgentGPT, CrewAI, LangGraph và các Specialized Agents'
 icon: 'people-arrows'
 ---
 
@@ -38,7 +38,20 @@ Khi một Agent đơn lẻ không đủ, chúng ta cần một đội ngũ. Dư�
   </Card>
 </CardGroup>
 
-## 3. Phán quyết (Verdict)
+## 3. Specialized & Privacy Agents (Nhóm Chuyên biệt)
+
+Ngoài các framework đa năng, thị trường đang xuất hiện các nhóm Agent chuyên biệt hóa.
+
+### AgenticSeek (Privacy-First)
+*   **Định vị**: Giải pháp Agent chạy hoàn toàn **Local (Cục bộ)**, thay thế cho Manus AI.
+*   **Điểm mạnh (Privacy)**: Dữ liệu không rời khỏi thiết bị, xử lý duyệt web, code, lập kế hoạch ngay trên phần cứng cá nhân.
+*   **Ứng dụng**: Trợ lý cho Developer yêu cầu bảo mật cao, xử lý dữ liệu nhạy cảm.
+
+### GLM Coding (Reasoning & Coding)
+*   **Định vị**: Agentic, Reasoning, and Coding (ARC) Foundation Models.
+*   **Điểm mạnh**: Tập trung sâu vào khả năng **Suy luận (Reasoning)** và **Viết Code**. Đây là nền tảng để xây dựng các Devin-like Agents (Kỹ sư phần mềm ảo).
+
+## 4. Phán quyết (Verdict)
 
 *   **Production**: Bắt buộc chọn **LangGraph**. Sự kiểm soát trạng thái (State) và khả năng "Time Travel" (quay lại bước trước khi lỗi) là vô giá.
 *   **MVP / PoC**: Chọn **CrewAI**. Dễ viết, code giống văn nói, setup nhanh một team agent để test ý tưởng.
