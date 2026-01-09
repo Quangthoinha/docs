@@ -1,53 +1,112 @@
 ---
 title: 'Chiến lược Tech Stack'
-description: 'Kiến trúc hệ thống Multi-Agent đề xuất cho doanh nghiệp'
+description: 'Đánh giá chi tiết và Ma trận công cụ cho hệ thống FOXAI IDP'
 icon: 'layer-group'
 ---
 
-Để xây dựng một hệ thống bền vững, dễ bảo trì và mở rộng, chúng tôi đề xuất mô hình **Layered Architecture** (Kiến trúc phân lớp) sau đây:
+Dựa trên yêu cầu đặc thù của hệ thống IDP (Intelligent Document Processing) với các luồng xử lý phức tạp, validation chặt chẽ và bảo mật doanh nghiệp, dưới đây là đánh giá chi tiết từng nhóm công cụ.
+
+## 1. Nhóm Điều Phối (Orchestration & Core Agent)
+
+Yêu cầu: Quản lý trạng thái (State), vòng lặp sửa lỗi (Retry/Loop), và tích hợp Sandbox chạy Code Python.
+
+<AccordionGroup>
+  <Accordion title="LangGraph - Best Fit for Product Core" icon="diagram-project">
+    **Vai trò: Orchestrator Engine**
+    
+    Đây là lựa chọn tối ưu cho "Lõi sản phẩm" vì:
+    *   **State Management**: IDP có luồng phức tạp (Valid -> Fail -> Retry). LangGraph lưu trạng thái dạng Graph, cho phép quay lui nếu lỗi.
+    *   **CodeACT**: Hỗ trợ tốt nhất mô hình Agent viết code Pandas để ETL dữ liệu.
+    *   **Human-in-the-loop (HITL)**: Tính năng "Checkpoints" cho phép tạm dừng (interrupt) khi validation lỗi, chờ người dùng sửa rồi resume.
+  </Accordion>
+
+  <Accordion title="CrewAI - Prototyping" icon="users">
+    **Vai trò: Dev Tool / Demo**
+    
+    *   Mạnh về phân vai (Role-playing) nhưng yếu về kiểm soát luồng dữ liệu chính xác (Control Flow).
+    *   Khó kiểm soát các vòng lặp lỗi chi tiết.
+    *   **Khuyên dùng**: Để demo nhanh ý tưởng "Agent Swarm" cho khách hàng.
+  </Accordion>
+
+  <Accordion title="Dify.AI - Hybrid Platform" icon="cubes">
+    **Vai trò: Configuration & Knowledge Platform**
+    
+    *   **RAG Engine**: Quản lý Knowledge Base (instruction.md, schema.json) rất tốt.
+    *   **Workflow**: Tốt cho logic tuyến tính.
+    *   **Hạn chế**: Code Sandbox yếu, không đủ sức tải các tác vụ ETL nặng.
+  </Accordion>
+</AccordionGroup>
+
+## 2. Nhóm Tự Động Hóa (Integration Layer)
+
+Yêu cầu: Kết nối MinIO, nhận Webhook, đẩy dữ liệu sang ERP/RPA.
+
+<CardGroup cols={2}>
+  <Card title="n8n - Best Fit" icon="bolt">
+    **Integration Backbone**
+    *   **Self-hosted**: Chạy Docker nội bộ, an toàn cho dữ liệu chứng từ (Security).
+    *   **Xử lý dữ liệu**: Xử lý JSON/Binary cực tốt. Đóng vai trò "Agent Observer" (Lắng nghe MinIO -> Trigger LangGraph).
+  </Card>
+  <Card title="Activepieces - Alternative" icon="puzzle-piece">
+    **Open Source Integration**
+    *   Lựa chọn thay thế nếu muốn nguồn mở hoàn toàn (MIT).
+    *   **MCP Support**: Hữu ích nếu muốn Agent gọi trực tiếp module kết nối.
+  </Card>
+</CardGroup>
+
+## 3. Nhóm Giao Diện (UI & Builder)
+
+Yêu cầu: Upload Portal và Human Review Station.
+
+*   **Flowise**: **Dev Tool / Visualizer**. Tuyệt vời để kéo thả phác thảo logic cho Team Dev xem. Không phù hợp làm UI chính cho người dùng vì khó tùy biến sâu (RBAC, Custom Data Grid).
+
+## 4. Ma Trận Phù Hợp (Matching Matrix)
+
+Sự phân bổ công cụ tối ưu cho kiến trúc FOXAI:
+
+| Thành phần | Công cụ đề xuất | Loại hình | Tại sao chọn? |
+| :--- | :--- | :--- | :--- |
+| **Orchestrator Engine** | **LangGraph** | Product Core | Đủ sức "cầm trịch" logic phức tạp, stateful, HITL. |
+| **Coding Agent** | **LangGraph + Docker** | Product Core | Thực thi code Python an toàn trong Sandbox. |
+| **Integration Layer** | **n8n (Self-hosted)** | Product Infra | Xử lý luồng file (MinIO), kết nối ERP ổn định. |
+| **Knowledge Base** | **Dify.AI** | Product Platform | Quản lý file instruction và cung cấp API RAG nhanh. |
+| **Review Station** | **Custom React/NextJS** | Product UI | Cần giao diện đặc thù (Highlight PDF, Data Grid). |
+
+## 5. Kịch Bản Thực Tế (Workflow Simulation)
+
+Mô phỏng luồng xử lý hóa đơn (Invoice Processing Flow):
 
 <Steps>
-  <Step title="Lớp 1: Giao tiếp & Tri thức (The Face)" icon="comments">
-    **Công cụ: Dify.AI**
-    
-    Đóng vai trò là cổng giao tiếp (Gateway) với người dùng cuối.
-    * Quản lý Knowledge Base (RAG) từ tài liệu PDF/Word.
-    * Cung cấp giao diện Chat UI đẹp, có sẵn Authentication.
-    * Xử lý các tác vụ logic đơn giản.
+  <Step title="Ingestion">
+    Khách hàng upload file vào Portal -> Lưu vào **MinIO** -> Gửi Webhook tới **n8n**.
   </Step>
-
-  <Step title="Lớp 2: Kết nối & Vận hành (The Hands)" icon="bolt">
-    **Công cụ: Activepieces hoặc n8n**
-    
-    Đóng vai trò là "tay chân" thực thi hành động.
-    * Nhận tín hiệu từ Dify (qua API Request).
-    * Kết nối với CRM, Email, Slack, Google Sheets.
-    * Xử lý logic dữ liệu (JSON) trước khi trả về.
+  <Step title="Orchestration">
+    **n8n** gọi API sang **LangGraph Server**.
   </Step>
-
-  <Step title="Lớp 3: Bộ não xử lý phức tạp (The Brain)" icon="brain">
-    **Công cụ: LangGraph (Python)**
-    
-    Đóng vai trò xử lý các tác vụ chuyên sâu mà No-code không làm được.
-    * Chạy các Agent phân tích dữ liệu (Pandas/SQL).
-    * Coding Agent tự sửa lỗi.
-    * Duy trì trạng thái hội thoại phức tạp (State management).
+  <Step title="Core Processing (LangGraph)">
+    1.  Gọi LLM + OCR lấy JSON thô.
+    2.  Lấy instruction từ **Dify**.
+    3.  **Coding Agent** viết code Python (trong Docker) để clean data.
+    4.  **Auditor Node** kiểm tra validation status.
+        *   *Nếu OK*: Trả về n8n.
+        *   *Nếu Fail*: Dừng state (**Interrupt**), báo cho UI.
+  </Step>
+  <Step title="Human Review">
+    Con người sửa trên **Custom UI** -> UI gọi API "Resume" của LangGraph -> Chạy tiếp.
+  </Step>
+  <Step title="Export">
+    **n8n** nhận kết quả cuối cùng -> Đẩy vào ERP.
   </Step>
 </Steps>
 
-<Info>
-  **Tại sao lại tách rời?**
-  Việc tách Dify (Chat) và n8n (Action) giúp bạn dễ dàng thay thế từng thành phần mà không đập đi xây lại toàn bộ hệ thống. Dev làm việc ở Layer 3, Business User tự sửa quy trình ở Layer 2.
-</Info>
+## Kết Luận
 
 <Check>
-  **Lợi ích đạt được:**
-  *   Tách biệt trách nhiệm (Separation of Concerns).
-  *   Dễ dàng tuyển dụng nhân sự cho từng mảng (No-code vs Code).
-  *   Khả năng mở rộng vô hạn.
+  **Với Product (Sản phẩm thương mại)**
+  Đầu tư vào bộ ba: **LangGraph** (Logic) + **n8n** (Kết nối) + **Custom UI** (Review). Đây là kiến trúc "Hardcore" đủ để xử lý hàng triệu chứng từ.
 </Check>
 
-<Note>
-  **Lời khuyên cuối cùng cho CTO:**
-  Đừng cố gắng tìm một công cụ làm được tất cả mọi thứ. "Silver Bullet" không tồn tại. Hãy kết hợp sức mạnh của Best-of-breed tools.
-</Note>
+<Tip>
+  **Với Dev Tools (Nội bộ)**
+  Dùng **Flowise** để BA vẽ luồng, **CrewAI** để test prompt, và **Dify** để quản lý tài liệu.
+</Tip>
